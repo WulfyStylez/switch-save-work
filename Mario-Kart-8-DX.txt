@@ -1,0 +1,21 @@
+/userdata.dat:
+Updated format from Wii U - and little-endian as well.
+
+First header:
+0x00: 0x4 Magic 'SUTC'
+0x04: ? (observed zero)
+0x08: Total save size
+0x0C: 0x2C-byte padding
+0x38: little-endian CRC32 starting at 0x48, len 0x13628
+(since it hasn't been documented afaik: wii u uses the same but 0x65F0 len as the save's shorter)
+0x3C: 12-byte padding
+
+0x48: Second magic 'SUTC'
+0x4C: observed '1', maybe a data version?
+0x50: 16-byte pseudorandom data?
+0x60: ascii version string ("1.2.0")
+
+0x1E8C: wins?
+0x1E90: losses?
+0x1E94: race points
+0x1E98: battle points

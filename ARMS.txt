@@ -1,0 +1,12 @@
+/UserSave.dat:
+
+First header:
+0x00: magic 'SUAN'
+0x04: ? (observed zero)
+0x08: ? (observed zero)
+0x0C: total file size, including this header
+0x10: little-endian CRC32 starting at 0x20, len 0x16EE40 (e.g. to end of file)
+0x14: 0xC-len padding?
+
+0x20: Second magic 'SUAN'
+...

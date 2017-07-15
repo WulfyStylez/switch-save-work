@@ -1,4 +1,4 @@
-** Notes are based on 'Splatoon 2: Splatfest World Premiere' save and may differ from final. **
+** Notes are based on 'Splatoon 2: Splatfest World Premiere' save.dat and may differ from final. **
 
 CRC32 is offset 0x10 len 0x483A0. bytes stored at 0x8, little-endian
 

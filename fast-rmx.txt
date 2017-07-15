@@ -1,3 +1,0 @@
-save.bin contains the null-terminated string sSavedata (e.g. '73536176656461746100') followed by JSON data.
-unlockedVehicles sets the current vehicle unlock progress (out of 15)
-rest is basically self-explanatory

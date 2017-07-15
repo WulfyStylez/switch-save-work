@@ -1,0 +1,2 @@
+/saveData.bin: ascii text. About the same as the PC version, no checksums or anything.
+Saves seem to be directly compatible with the PC version - moving from PC->Switch or Switch->PC.
