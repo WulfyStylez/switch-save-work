@@ -1,0 +1,65 @@
+** Notes are based on 'Splatoon 2: Splatfest World Premiere' save and may differ from final. **
+
+CRC32 is offset 0x10 len 0x483A0. bytes stored at 0x8, little-endian
+
+Cmn::GetSaveWrite returns a ptr to save section objects as described below
+_ZN3Cmn15SaveDataFactory6spDataE_ptr is the same ptr, sometimes directly used instead
+these objects + 0x10 is the raw save data buf for that section
+0x10: Header (offset 0)
+0x18: SaveDataCmn   (save offset 0x10)
+0x20: SaveDataVss   (save offset 0x2B220)
+0x28: SaveDataLocal (save offset 0x37970)
+0x30: SaveDataMsn   (save offset 0x3AD58)
+0x38: SaveDataShop  (save offset 0x40BD0)
+0x40: SaveDataCoop  (save offset 0x438D0)
+0x48: SaveDataFes   (save offset 0x48290)
+
+(offsets can be updated if they change by checking Cmn::SaveData::SaveData)
+
+Header:
+0x0: Product version? (0 for splatfest test, also seems totally unused)
+0x4: DevelopVersion (0 for splatfest test, must match zero)
+0x8: little-endian CRC32 of 0x483A0 bytes starting after header
+0xC: Always zero?
+
+SaveDataCmn:
+0x00: Gender (gender is fake, but this u32 isn't)
+0x04: HairId
+0x08: BottomId
+0x0C: SkinColorId
+...
+0x28: weapons, 0x100 0x130-sized entries. (first 0x20 of each is actual data, what's last 0x110?)
+0x13028: Gear info, 3 blocks of 0x6000 size for each GearKind
+    GearKind: 0x200 0x30-len entries
+0x25038: SkillChips, 0x20 0x10-sized entries
+0x25238: BoostTickets, 0x40 0xC-len entries
+...
+0x255E0: online_play_penalty:penalty_point
+0x255E4: online_play_penalty:penalty_count
+...
+0x256F8: array of 0x80 bools
+...
+0x25778: money
+0x2577C: "TurbanShell"
+...
+0x258A4: time_location_for_seq (string)
+
+SaveDataVss: versus
+0x00: Rank
+0x04: Experience
+0x08: StarRank
+0x0C: 'UseBoost' (0xC bytes)
+0x18: 'Udemae' data (skill?) at least 4 indexes
+    0: ?
+    1: udemae:cVgl
+    2: udemae:cVar
+    3: udemae:cVlf
+
+SaveDataFest:
+0x00:
+0x04:
+0x08:
+0x0C:
+0x10:
+0x14:
+0x18:
