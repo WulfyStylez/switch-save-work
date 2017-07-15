@@ -1,0 +1,3 @@
+Seemingly the same as Wii U, but all data types little-endian. 
+Same save keys and everything - see https://github.com/marcrobledo/savegame-editors/tree/master/zelda-botw-master
+TODO: can we convert to/from wii u by just endian-swapping u32s?
