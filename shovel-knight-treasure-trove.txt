@@ -1,2 +1,2 @@
 one file - saveData.bin. ascii text. seems about the same as the pc version? no checksums or anything.
-TODO: test save intercompat w/ pc
+Saves seem to be compatible with the PC version - moving from PC->Switch or Switch->PC.

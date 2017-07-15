@@ -1,3 +1,4 @@
 Seemingly the same as Wii U, but all data types little-endian. 
 Same save keys and everything - see https://github.com/marcrobledo/savegame-editors/tree/master/zelda-botw-master
-TODO: can we convert to/from wii u by just endian-swapping u32s?
+Save conversion with Wii U is... kind of possible. Endian-swapping all u32s keeps some progress but trashes others (e.g. quest progress and towers are fine, inventory is reset). 
+Presumably char array and u8 array types need to have only their keys flipped and data kept the same for a perfect transition.
