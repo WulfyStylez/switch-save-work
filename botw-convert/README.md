@@ -1,5 +1,5 @@
-# Zelda: Breath Of The Wild save converter
-This tool takes a folder from a Wii U BotW save and does careful endian flipping to fully convert it to work with the Switch version instead.
+# Zelda: Breath Of The Wild save console converter
+This tool takes the folder from a Wii U BotW save and fully converts it to work with the Switch version. This works for up to and including software version 1.3.0.
 Switch -> Wii U support is planned but, you know, not really high priority.
 
 usage: botwconvert [savedir]
