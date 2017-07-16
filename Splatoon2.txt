@@ -63,5 +63,5 @@ SaveDataFest:
 0x0C: Current splatfest XP (within the above level)
 0x10: Matches played
 0x14: Current team power (32-bit float)
-0x18: This is a flag bitfield. bit 4 (0x10) may indicate pre-splatfest voting time_location_for_seq
-    - observed 0x33 during splatfest, 0x11 before
+0x18: This is a flag bitfield. bit 4 (0x10) may indicate pre-splatfest voting is open. bit 3 (0x8) may indicate splatfest results have been viewed.
+    - observed 0x11 before splatfest, 0x33 during, 0x3B after
