@@ -10,3 +10,4 @@ First header:
 
 0x20: Second magic 'SUAN'
 ...
+0x40: Money
