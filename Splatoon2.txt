@@ -1,12 +1,10 @@
-** Notes are based on 'Splatoon 2: Splatfest World Premiere' save.dat and may differ from final. **
-*  If this is the case, expect an update shortly after launch.  *
 
 CRC32 is offset 0x10 len 0x483A0. bytes stored at 0x8, little-endian
 
 Cmn::GetSaveWrite returns a ptr to save section objects as described below
 _ZN3Cmn15SaveDataFactory6spDataE_ptr is the same ptr, sometimes directly used instead
 these objects + 0x10 is the raw save data buf for that section
-0x10: Header (offset 0)
+0x10: Header        (save offset 0)
 0x18: SaveDataCmn   (save offset 0x10)
 0x20: SaveDataVss   (save offset 0x2B220)
 0x28: SaveDataLocal (save offset 0x37970)
