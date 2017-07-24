@@ -1,5 +1,7 @@
 
 CRC32 is offset 0x10 len 0x483A0. bytes stored at 0x8, little-endian
+Save body at +0x10 and on is encrypted in version 1.1.1, but was not encrypted in the Splatfest demo.
+TODO: does 1.0 use encryption? also, document the actual crypto used
 
 Cmn::GetSaveWrite returns a ptr to save section objects as described below
 _ZN3Cmn15SaveDataFactory6spDataE_ptr is the same ptr, sometimes directly used instead
@@ -16,8 +18,8 @@ these objects + 0x10 is the raw save data buf for that section
 (offsets can be updated if they change by checking Cmn::SaveData::SaveData)
 
 Header:
-0x0: Product version? (0 for splatfest test, also seems totally unused)
-0x4: DevelopVersion (0 for splatfest test, must match zero)
+0x0: Product version? (0 for splatfest test, 1 on v1.1.1)
+0x4: DevelopVersion (0 for splatfest test and v1.1.1)
 0x8: little-endian CRC32 of 0x483A0 bytes starting after header
 0xC: Always zero?
 
