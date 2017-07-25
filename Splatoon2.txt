@@ -20,18 +20,18 @@ these objects + 0x10 is the raw save data buf for that section
 (offsets can be updated if they change by checking Cmn::SaveData::SaveData)
 
 Header:
-0x0: Product version? (0 for splatfest test, 1 on v1.1.1)
-0x4: DevelopVersion (0 for splatfest test and v1.1.1)
+0x0: Product version? (0 for splatfest test and 1.0, 1 on v1.1.1)
+0x4: DevelopVersion (0 on all versions so far)
 0x8: little-endian CRC32 of 0x483A0 bytes starting after header
-0xC: Always zero?
+0xC: Always zero
 
-SaveDataCmn:
+SaveDataCmn: Shared data
 0x00: Gender; 0 for girl, 1 for boy (gender is fake, but this u32 isn't)
 0x04: HairId
-0x08: BottomId
-0x0C: SkinColorId
-...
-0x28: weapons, 0x100 0x130-sized entries. (first 0x20 of each is actual data, what's last 0x110?)
+0x08: BottomId 
+0x0C: SkinColorId (max 6)
+0x10: EyeColorId (max 13)
+0x14: weapons, 0x100 0x130-sized entries. (first 0x20 of each is actual data, what's last 0x110?)
 0x13028: Gear info, 3 blocks of 0x6000 size for each GearKind
     GearKind: 0x200 0x30-len entries
 0x25038: SkillChips, 0x20 0x10-sized entries
@@ -47,7 +47,7 @@ SaveDataCmn:
 ...
 0x258A4: time_location_for_seq (string)
 
-SaveDataVss: versus
+SaveDataVss: Versus
 0x00: Rank
 0x04: Experience
 0x08: StarRank
@@ -57,8 +57,11 @@ SaveDataVss: versus
     1: udemae:cVgl
     2: udemae:cVar
     3: udemae:cVlf
+    
+SaveDataLocal: 
+0x13E4: Stamp count?
 
-SaveDataFest:
+SaveDataFest: Splatfest
 0x00: current FestId (-1 for no splatfest)
 0x04: splatfest team (0 or 1)
 0x08: Current splatfest level (e.g. fiend, champion)
@@ -81,58 +84,4 @@ Save footer layout:
 
 As of 1.1.1, this security can be partially stepped around by simply setting product version to 0. The save will only have its CRC checked, and will not be crypted or authenticated. This won't work in the future if the save layout changes, and of course you must decrypt a newer save before it can be loaded decrypted.
 
-Working example code for key generation:
-// generate a random u32 using slightly modified xorshift128 (all ctx indexes are inverted)
-u32 rand32(u32 rand[4])
-{
-    u32 t = rand[0];
-    t ^= (t << 11);
-    t ^= (t >> 8);
-    t ^= rand[3];
-    t ^= (rand[3] >> 19);
-    
-    rand[0] = rand[1];
-    rand[1] = rand[2];
-    rand[2] = rand[3];
-    rand[3] = t;
-    return t;
-}
-
-/*
- * including this feels risky, if you can access saves you should be able to get this too!
- * sha256 of raw 0x100-byte buffer, to be sure, is:
- * 9F9796262CA09932627C70605B2D62423B556816366CC3F0A9D330153A1C1228
- * referenced in the unlabeled func called by e.g.
- * Cmn::SaveDataFactory::encode
- */
-u32 lookup_table[64] = {0};
-
-// generate 0x10 of keydata from rand ctx
-void generate_randkey(u32 rand[4], u8 key[16])
-{
-    u32* key32 = (u32*)key;
-    memset(key, 0, 16);
-    
-    // outer loop is for each u32 of the key, inner is for each u8
-    for(u32 i = 0; i < 4; i++)
-    {
-        for(u32 j = 0; j < 4; j++)
-        {
-            u32 state = key32[i];
-            // get a lookup value from a random index within bounds
-            u32 lookup = lookup_table[rand32(rand) >> 26];
-            // generate 2 random bits in bits 3 and 4
-            u32 t = (rand32(rand) >> 27) & 0x18;
-            
-            // shift lookup by t value, use this as the bottom u8 of the state
-            t = lookup >> t;
-            state |= (t & 0xFF);
-            
-            // shift to free up the bottom u8, unless we just set it
-            if(j != 3)
-                state = state << 8;
-            
-            key32[i] = state;
-        }
-    }
-}
+See the tool 'splatcrypt' in this repo for info on how this crypto works!
