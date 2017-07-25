@@ -80,3 +80,59 @@ Save footer layout:
 0x483D0: 0x10-length AES-CMAC over decrypted savedata
 
 As of 1.1.1, this security can be partially stepped around by simply setting product version to 0. The save will only have its CRC checked, and will not be crypted or authenticated. This won't work in the future if the save layout changes, and of course you must decrypt a newer save before it can be loaded decrypted.
+
+Working example code for key generation:
+// generate a random u32 using slightly modified xorshift128 (all ctx indexes are inverted)
+u32 rand32(u32 rand[4])
+{
+    u32 t = rand[0];
+    t ^= (t << 11);
+    t ^= (t >> 8);
+    t ^= rand[3];
+    t ^= (rand[3] >> 19);
+    
+    rand[0] = rand[1];
+    rand[1] = rand[2];
+    rand[2] = rand[3];
+    rand[3] = t;
+    return t;
+}
+
+/*
+ * including this feels risky, if you can access saves you should be able to get this too!
+ * sha256 of raw 0x100-byte buffer, to be sure, is:
+ * 9F9796262CA09932627C70605B2D62423B556816366CC3F0A9D330153A1C1228
+ * referenced in the unlabeled func called by e.g.
+ * Cmn::SaveDataFactory::encode
+ */
+u32 lookup_table[64] = {0};
+
+// generate 0x10 of keydata from rand ctx
+void generate_randkey(u32 rand[4], u8 key[16])
+{
+    u32* key32 = (u32*)key;
+    memset(key, 0, 16);
+    
+    // outer loop is for each u32 of the key, inner is for each u8
+    for(u32 i = 0; i < 4; i++)
+    {
+        for(u32 j = 0; j < 4; j++)
+        {
+            u32 state = key32[i];
+            // get a lookup value from a random index within bounds
+            u32 lookup = lookup_table[rand32(rand) >> 26];
+            // generate 2 random bits in bits 3 and 4
+            u32 t = (rand32(rand) >> 27) & 0x18;
+            
+            // shift lookup by t value, use this as the bottom u8 of the state
+            t = lookup >> t;
+            state |= (t & 0xFF);
+            
+            // shift to free up the bottom u8, unless we just set it
+            if(j != 3)
+                state = state << 8;
+            
+            key32[i] = state;
+        }
+    }
+}
