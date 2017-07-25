@@ -3,11 +3,8 @@
 #include <string.h>
 #include <stdarg.h>
 #include <dirent.h>
-#include <ftw.h>
 
 #include "utils.h"
-
-
 
 int jpg_extension_check(char* str)
 {
