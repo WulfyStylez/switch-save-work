@@ -46,6 +46,8 @@ SaveDataCmn: Shared data
 0x2577C: "TurbanShell"
 ...
 0x258A4: time_location_for_seq (string)
+...
+0x271A8: 100 u8 bools, data used (along with some other flags) for unlocking squid beatz songs 35-42.
 
 SaveDataVss: Versus
 0x00: Rank
@@ -57,9 +59,22 @@ SaveDataVss: Versus
     1: udemae:cVgl
     2: udemae:cVar
     3: udemae:cVlf
+0x5E78: (u64) if 1, squid beatz songs 20-26 unlocked
+    (the consumer of this data uses u64 index 2 starting from 0x5E68.. but it's hardcoded? this flag might be used for something else too)
     
 SaveDataLocal: 
 0x13E4: Stamp count?
+
+SaveDataMsn: Octo Valley
+0x1E46: (u8) squid beatz songs 11, 12, 15 unlocked
+0x1E47: (u8) squid beatz songs 13 and 14 unlocked
+0x1E4A: (u8) squid beatz song 9 unlocked
+0x1E4E: (u8) squid beatz song 10 unlocked
+(songs 16-19 are unlocked upon beating the final boss, can be forced by setting u32 at 0 to 0x69 and u32 at 4 to 0x3)
+
+SaveDataCoop: Salmon Run
+0x10: (u32) if >0, squid beatz songs 31-34 unlocked
+
 
 SaveDataFest: Splatfest
 0x00: current FestId (-1 for no splatfest)
