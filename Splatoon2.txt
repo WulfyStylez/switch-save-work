@@ -66,11 +66,13 @@ SaveDataLocal:
 0x13E4: Stamp count?
 
 SaveDataMsn: Octo Valley
+0x0000: (u32) progress flags? 0x69 is post-final-boss
+0x0004: (u32) worlds unlocked
 0x1E46: (u8) squid beatz songs 11, 12, 15 unlocked
 0x1E47: (u8) squid beatz songs 13 and 14 unlocked
 0x1E4A: (u8) squid beatz song 9 unlocked
 0x1E4E: (u8) squid beatz song 10 unlocked
-(songs 16-19 are unlocked upon beating the final boss, can be forced by setting u32 at 0 to 0x69 and u32 at 4 to 0x3)
+(songs 16-19 are unlocked upon beating the final boss and unlocking world 3)
 
 SaveDataCoop: Salmon Run
 0x10: (u32) if >0, squid beatz songs 31-34 unlocked
