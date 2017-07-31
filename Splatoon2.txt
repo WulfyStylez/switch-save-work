@@ -31,11 +31,17 @@ SaveDataCmn: Shared data
 0x08: BottomId 
 0x0C: SkinColorId (max 6)
 0x10: EyeColorId (max 13)
-0x14: weapons, 0x100 0x130-sized entries. (first 0x20 of each is actual data, what's last 0x110?)
+0x14: weapons, 0x100 0x130-sized entries. (first 0x20 of each seems to be actual data, what's last 0x110?)
 0x13028: Gear info, 3 blocks of 0x6000 size for each GearKind
     GearKind: 0x200 0x30-len entries
 0x25038: SkillChips, 0x20 0x10-sized entries
-0x25238: BoostTickets, 0x40 0xC-len entries
+0x25238: BoostTickets, 0x40 0xC-len entries. ticket_id, unk (usually -1, probably for drinks?), count
+    ids: 
+    -1: none 
+    0: 50% XP 
+    1: 100% XP 
+    2: 50% cash 
+    3: 100% cash
 ...
 0x255E0: online_play_penalty:penalty_point
 0x255E4: online_play_penalty:penalty_count
@@ -43,7 +49,7 @@ SaveDataCmn: Shared data
 0x256F8: array of 0x80 bools
 ...
 0x25778: money
-0x2577C: "TurbanShell"
+0x2577C: super sea snails
 ...
 0x258A4: time_location_for_seq (string)
 ...
@@ -67,7 +73,7 @@ SaveDataLocal:
 
 SaveDataMsn: Octo Valley
 0x0000: (u32) progress flags? 0x69 is post-final-boss
-0x0004: (u32) worlds unlocked
+0x0004: (u32) worlds unlocked?
 0x1E46: (u8) squid beatz songs 11, 12, 15 unlocked
 0x1E47: (u8) squid beatz songs 13 and 14 unlocked
 0x1E4A: (u8) squid beatz song 9 unlocked
@@ -75,6 +81,8 @@ SaveDataMsn: Octo Valley
 (songs 16-19 are unlocked upon beating the final boss and unlocking world 3)
 
 SaveDataCoop: Salmon Run
+0x00: current level
+0x04: XP in current level
 0x10: (u32) if >0, squid beatz songs 31-34 unlocked
 
 
@@ -87,6 +95,38 @@ SaveDataFest: Splatfest
 0x14: Current team power (32-bit float)
 0x18: This is a flag bitfield. bit 4 (0x10) may indicate pre-splatfest voting is open. bit 3 (0x8) may indicate splatfest results have been viewed.
     - observed 0x11 before splatfest, 0x33 during, 0x3B after
+    
+Cmn::MushDataHolder::MushDataHolder
+object holding various data related to all sorts of game data. these are offsets within this object.
+The data within these ptrs is pulled from the byml's at romfs:/Mush/
+0x20: Current heap
+0x28: MapInfo
+0x30: HairInfo
+0x38: GearInfo
+0x40: TankInfo
+0x48: BottomInfo
+0x50: WeaponInfo
+0x58: SkillInfo
+0x60: PlayerRank
+0x68: UdemaeGrade
+0x70: ParticleBindModel
+0x78: BrandInfo
+0x80: NpcInfo
+0x88: ActorDBInfo
+0x90: PaintResTexInfo
+0x98: EnemyInfo
+0xA0: ObjInfo
+0xA8: WorldFirstEntryDemoInfo
+0xB0: WorldSecondFirstEntryDemoInfo
+0xB8: MissionLastBossDemoInfo
+0xC0: DamageRateInfo
+0xC8: WorldHotaruTalkInfo
+0xD0: WorldHotaruFreeTalkInfo
+0xD8: MushPlayerWeaponGripInfo
+0xE0: MushTipsTextInfo
+0xE8: StreamingObjInfo
+0xF0: MushUnlockGearInfo
+
 
 ***********************
  SAVE ENCODING
