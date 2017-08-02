@@ -34,18 +34,17 @@ SaveDataCmn: Shared data
 0x14: weapons, 0x100 0x130-sized entries. (first 0x20 of each seems to be actual data, what's last 0x110?)
 0x13028: Gear info, 3 blocks of 0x6000 size for each GearKind
     GearKind: 0x200 0x30-len entries
-0x25038: SkillChips (Ability Chunks), 0x20 0x10-sized entries
-    - u32 unk1, u32 count, u32 unk2 (must be nonzero for setHaveSkillChip to be valid), unk3
+0x25038: SkillChips (Ability Chunks), 0x40 0x8-len entries
+    - u32 SkillID, u32 count, max 999
 0x25238: BoostTickets (food & drink tickets), 0x40 0xC-len entries. 
-    - u32 ticket_id, drink_id (-1, except for drinks), u32 count
+    - u32 ticket_id, u32 SkillID (-1, except for drinks), u32 count
     -ticket_id: 
         -1: none 
         0: 50% XP 
         1: 100% XP 
         2: 50% cash 
         3: 100% cash
-        4: drink ticket (id 0 = ? id 1 = ? id 2 = ? (TESTING))
-    -drink_id: these ids are skill IDs from Mush SkillInfo
+        4: drink ticket
 ...
 0x255E0: online_play_penalty:penalty_point
 0x255E4: online_play_penalty:penalty_count
@@ -147,6 +146,34 @@ The data within these ptrs is pulled from the byml's at romfs:/Mush/
 0xE0: MushTipsTextInfo
 0xE8: StreamingObjInfo
 0xF0: MushUnlockGearInfo
+
+SkillInfo->SkillID (as of 1.1.2)
+00: Ink Saver (Main)
+01: Ink Saver (Sub)
+02: Ink Recovery Up
+03: Run Speed Up
+04: Swim Speed Up
+05: Special Charge Up
+06: Special Saver
+07: Special Power Up
+08: Quick Respawn
+09: Quick Super Jump
+0A: Sub Power Up
+0B: Ink Resistance Up
+0C: Bomb Defense Up
+0D: Cold-Blooded
+0E: Opening Gambit
+0F: Last-Ditch Effort
+10: Tenacity
+11: Comeback
+12: Ninja Squid
+13: Haunt
+14: Thermal Ink
+15: Respawn Punisher
+16: Ability Doubler
+17: Stealth Jump
+18: Object Shredder
+19: Drop Roller
 
 
 ***********************
