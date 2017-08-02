@@ -34,14 +34,18 @@ SaveDataCmn: Shared data
 0x14: weapons, 0x100 0x130-sized entries. (first 0x20 of each seems to be actual data, what's last 0x110?)
 0x13028: Gear info, 3 blocks of 0x6000 size for each GearKind
     GearKind: 0x200 0x30-len entries
-0x25038: SkillChips, 0x20 0x10-sized entries
-0x25238: BoostTickets, 0x40 0xC-len entries. ticket_id, unk (usually -1, probably for drinks?), count
-    ids: 
-    -1: none 
-    0: 50% XP 
-    1: 100% XP 
-    2: 50% cash 
-    3: 100% cash
+0x25038: SkillChips (Ability Chunks), 0x20 0x10-sized entries
+    - u32 unk1, u32 count, u32 unk2 (must be nonzero for setHaveSkillChip to be valid), unk3
+0x25238: BoostTickets (food & drink tickets), 0x40 0xC-len entries. 
+    - u32 ticket_id, drink_id (-1, except for drinks), u32 count
+    -ticket_id: 
+        -1: none 
+        0: 50% XP 
+        1: 100% XP 
+        2: 50% cash 
+        3: 100% cash
+        4: drink ticket (id 0 = ? id 1 = ? id 2 = ? (TESTING))
+    -drink_id: these ids are skill IDs from Mush SkillInfo
 ...
 0x255E0: online_play_penalty:penalty_point
 0x255E4: online_play_penalty:penalty_count
@@ -51,6 +55,7 @@ SaveDataCmn: Shared data
 0x25778: money
 0x2577C: super sea snails
 ...
+0x25898: u32 NexUniqueId
 0x258A4: time_location_for_seq (string)
 ...
 0x271A8: 100 u8 bools, data used (along with some other flags) for unlocking squid beatz songs 35-42.
@@ -69,6 +74,7 @@ SaveDataVss: Versus
     (the consumer of this data uses u64 index 2 starting from 0x5E68.. but it's hardcoded? this flag might be used for something else too)
     
 SaveDataLocal: 
+0x0: 0x30 u32s, Unlocked map IDs for offline play (used when online schedule data not available)
 0x13E4: Stamp count?
 
 SaveDataMsn: Octo Valley
@@ -81,9 +87,24 @@ SaveDataMsn: Octo Valley
 (songs 16-19 are unlocked upon beating the final boss and unlocking world 3)
 
 SaveDataCoop: Salmon Run
-0x00: current level
-0x04: XP in current level
-0x10: (u32) if >0, squid beatz songs 31-34 unlocked
+0x00: current level (5 = max)
+0x04: XP in current level (100 max at level 5)
+0x08: u32 max 99,999
+0x0C: u32 max 999,999,999
+0x10: u32 max 99999, if >0, squid beatz songs 31-34 unlocked
+0x14: u32 max 999,999,999
+0x18: u32 max 9,999,999
+0x1C: u32 max 999,999
+0x20: u32 max 9,999,999
+0x24: u32 max 99
+0x28: u32 max 0
+0x2C: 100 0xC-len entries:
+    0x0: u8 max 99?
+    0x1: u8 
+    0x2: u16 
+    0x4: u64 id of some sort for gear (may be u8s)
+
+0x28: rewards count (max 99)
 
 
 SaveDataFest: Splatfest
