@@ -162,18 +162,18 @@ SkillInfo->SkillID (as of 1.1.2)
 0B: Ink Resistance Up
 0C: Bomb Defense Up
 0D: Cold-Blooded
-0E: Opening Gambit
-0F: Last-Ditch Effort
-10: Tenacity
-11: Comeback
-12: Ninja Squid
-13: Haunt
-14: Thermal Ink
-15: Respawn Punisher
-16: Ability Doubler
-17: Stealth Jump
-18: Object Shredder
-19: Drop Roller
+??: Opening Gambit
+??: Last-Ditch Effort
+??: Tenacity
+??: Comeback
+??: Ninja Squid
+??: Haunt
+??: Thermal Ink
+??: Respawn Punisher
+??: Ability Doubler
+??: Stealth Jump
+??: Object Shredder
+??: Drop Roller
 
 
 ***********************
